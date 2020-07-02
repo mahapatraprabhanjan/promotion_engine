@@ -12,6 +12,7 @@ namespace Promotion.Engine.Tests
     public class Tests
     {
         private Mock<IPromotionRepository> promotionRepositoryMock;
+        private Mock<ISKURepository> skuRepositoryMock;
 
         [SetUp]
         public void Setup()

@@ -1,20 +1,17 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Promotion.Engine.API.Application.Commands
 {
     public class ApplyPromotionCommand
     {
         [JsonProperty]
-        public string SKU { get; private set; }
-
-        [JsonProperty]
-        public int Quantity { get; private set; }
+        public List<CartItems> CartItems { get; private set; }
 
         [JsonConstructor]
-        public ApplyPromotionCommand(string sku, int quantity)
+        public ApplyPromotionCommand(List<CartItems> cartItems)
         {
-            SKU = sku;
-            Quantity = quantity;
+            CartItems = cartItems;
         }
     }
 }

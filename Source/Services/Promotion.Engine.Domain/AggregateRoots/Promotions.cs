@@ -25,6 +25,7 @@ namespace Promotion.Engine.Domain.AggregateRoots
         {
             _sku = sku;
             _value = Value;
+            _promotionType = promotionType;
             _promotionTypeId = promotionType.Id;
             _isActive = isActive;
         }

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Promotion.Engine.API.Application.Commands;
 using Promotion.Engine.Domain.AggregateRoots;
 using Promotion.Engine.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Promotion.Engine.Tests
         public void Setup()
         {
             promotionRepositoryMock = new Mock<IPromotionRepository>();
+            skuRepositoryMock = new Mock<ISKURepository>();
         }
 
         [Test]
@@ -25,12 +27,24 @@ namespace Promotion.Engine.Tests
         public async Task HandleApplyPromotion(ApplyPromotionCommand cart, int total)
         {
             promotionRepositoryMock.Setup(d => d.GetAsync()).ReturnsAsync(FakePromotions());
+            skuRepositoryMock.Setup(d => d.GetAsync()).ReturnsAsync(FakeSKU());
 
-            var handler = new ApplyPromotionCommandHandler(promotionRepositoryMock.Object);
+            var handler = new ApplyPromotionCommandHandler(promotionRepositoryMock.Object, skuRepositoryMock.Object);
             var cancellationToken = new CancellationToken();
             var result = await handler.Handle(cart, cancellationToken);
 
             Assert.AreEqual(result, total);
+        }
+
+        private List<SKUs> FakeSKU()
+        {
+            return new List<SKUs>
+            {
+                new SKUs("A", 50),
+                new SKUs("B", 30),
+                new SKUs("C", 20),
+                new SKUs("D", 15)                
+            };
         }
 
         private List<Promotions> FakePromotions()

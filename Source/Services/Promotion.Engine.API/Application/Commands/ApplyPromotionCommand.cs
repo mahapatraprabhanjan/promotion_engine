@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using MediatR;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Promotion.Engine.API.Application.Commands
 {
-    public class ApplyPromotionCommand
+    public class ApplyPromotionCommand: IRequest<int>
     {
         [JsonProperty]
         public List<CartItems> CartItems { get; private set; }

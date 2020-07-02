@@ -4,6 +4,8 @@ using Promotion.Engine.API.Application.Commands;
 using Promotion.Engine.Domain.AggregateRoots;
 using Promotion.Engine.Domain.Repositories;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Promotion.Engine.Tests
 {
@@ -19,11 +21,15 @@ namespace Promotion.Engine.Tests
 
         [Test]
         [TestCaseSource("_sourceLists")]
-        public void HandleApplyPromotion(ApplyPromotionCommand cart, int total)
+        public async Task HandleApplyPromotion(ApplyPromotionCommand cart, int total)
         {
             promotionRepositoryMock.Setup(d => d.GetAsync()).ReturnsAsync(FakePromotions());
 
-            var handler = new ApplyPromotionCommandHandler();
+            var handler = new ApplyPromotionCommandHandler(promotionRepositoryMock.Object);
+            var cancellationToken = new CancellationToken();
+            var result = await handler.Handle(cart, cancellationToken);
+
+            Assert.AreEqual(result, total);
         }
 
         private List<Promotions> FakePromotions()

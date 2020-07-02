@@ -1,11 +1,14 @@
 using NUnit.Framework;
 using Promotion.Engine.API.Application.Commands;
+using Promotion.Engine.Domain.Repositories;
 using System.Collections.Generic;
 
 namespace Promotion.Engine.Tests
 {
     public class Tests
     {
+        private IPromotionRepository promotionRepositoryMock;
+
         [SetUp]
         public void Setup()
         {

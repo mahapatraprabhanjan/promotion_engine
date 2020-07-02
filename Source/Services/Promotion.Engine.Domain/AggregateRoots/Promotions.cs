@@ -2,7 +2,7 @@
 
 namespace Promotion.Engine.Domain.AggregateRoots
 {
-    public class Promotion : Entity
+    public class Promotions : Entity
     {
         private string _sku;
 
@@ -21,7 +21,7 @@ namespace Promotion.Engine.Domain.AggregateRoots
 
         public bool IsActive => _isActive;
 
-        public Promotion(string sku, int Value, PromotionType promotionType, bool isActive)
+        public Promotions(string sku, int Value, PromotionType promotionType, bool isActive)
         {
             _sku = sku;
             _value = Value;

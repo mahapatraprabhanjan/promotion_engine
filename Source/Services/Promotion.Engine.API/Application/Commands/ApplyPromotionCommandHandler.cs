@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Promotion.Engine.API.Application.Engine;
 using Promotion.Engine.Domain.AggregateRoots;
 using Promotion.Engine.Domain.Repositories;
 using System;
@@ -24,7 +25,29 @@ namespace Promotion.Engine.API.Application.Commands
         {
             var cartItems = request.CartItems;
 
-            var result = await ProcessPromotions(cartItems);
+            var result = await ProcessPromotions2(cartItems);
+            return result;
+        }
+
+        private async Task<int> ProcessPromotions2(List<CartItems> cartItems)
+        {
+            var result = 0;
+
+            var promotions = await _promotionRepository.GetAsync();
+            var skus = await _sKURepository.GetAsync();
+
+            var engine = new QuantityHandler(_promotionRepository);
+            engine.NextHandler(new MultipromotionHandler(_promotionRepository, _sKURepository));
+
+            foreach (var item in cartItems)
+            {
+                var sku = skus.FirstOrDefault(d => d.SKU == item.SKU);
+                var promotion = promotions.FirstOrDefault(d => d.IsActive && d.SKU.Contains(item.SKU));
+                var request = new Request(item.SKU, item.Quantity, promotion.PromotionType, promotion.Value, sku.Value);
+
+                result += await engine.RunAsync(request);
+            }
+
             return result;
         }
 

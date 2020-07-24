@@ -51,9 +51,9 @@ namespace Promotion.Engine.Tests
         {
             return new List<Promotions>
             {
-                new Promotions("3 of A's for 130", 130, PromotionType.Quantity, true),
-                new Promotions("2 of B's for 45", 45, PromotionType.Quantity, true),
-                new Promotions("C & D for 30", 30, PromotionType.MultiSku, true),
+                new Promotions("3 of A's", 130, PromotionType.Quantity, true),
+                new Promotions("2 of B's", 45, PromotionType.Quantity, true),
+                new Promotions("C & D", 30, PromotionType.MultiSku, true),
             };
         }
 
